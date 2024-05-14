@@ -1,5 +1,0 @@
-runtime: python39  # Use the appropriate Python runtime
-
-handlers:
-- url: /.*
-  script: auto
