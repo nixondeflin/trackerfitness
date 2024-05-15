@@ -12,8 +12,11 @@ from utils import score_table
 import os
 import uuid
 <<<<<<< HEAD
+<<<<<<< HEAD
 from fastapi.middleware.cors import CORSMiddleware
 from google.cloud import storage
+=======
+>>>>>>> parent of 44a4c50 (f)
 =======
 >>>>>>> parent of 44a4c50 (f)
 
