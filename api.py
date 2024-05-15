@@ -11,6 +11,8 @@ from types_of_exercise import TypeOfExercise
 from utils import score_table
 import os
 import uuid
+from fastapi.middleware.cors import CORSMiddleware
+
 
 app = FastAPI()
 
@@ -23,37 +25,44 @@ mp_pose = mp.solutions.pose
 video_folder = Path("Exercise_videos")
 output_folder = Path("output")
 
+# Configure CORS
+origins = [
+    "http://localhost:3000",  # React development server
+    "https://trackerfit-423405.as.r.appspot.com",  # Your frontend URL
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,  # Allow all or specify a list of origins
+    allow_credentials=True,
+    allow_methods=["*"],  # Allow all methods (GET, POST, PUT, DELETE, etc.)
+    allow_headers=["*"],  # Allow all headers
+)
+
 @app.post('/analyze_exercise')
 async def analyze_exercise(file: UploadFile, exercise_type: str = Form(...)):
     if not file or not exercise_type:
         raise HTTPException(status_code=400, detail="Missing video file or exercise type")
 
-    # Save the uploaded video file temporarily
     with tempfile.NamedTemporaryFile(delete=False, suffix='.mp4') as temp_video:
         temp_video.write(await file.read())
         temp_video_path = temp_video.name
 
-    # Extract the original filename without the extension
-    original_filename = Path(file.filename).stem
+    original_filename = file.filename
     output_filename = f"{original_filename}_output.mp4"
 
-    # Create an output directory if it doesn't exist
     output_folder = "output"
     os.makedirs(output_folder, exist_ok=True)
     output_filepath = os.path.join(output_folder, output_filename)
 
-    # Open the input video file and set up the output video file for writing
     cap = cv2.VideoCapture(temp_video_path)
-    fourcc = cv2.VideoWriter_fourcc(*'mp4v')  # Use an appropriate codec for your video
+    fourcc = cv2.VideoWriter_fourcc(*'mp4v')
     out = cv2.VideoWriter(output_filepath, fourcc, cap.get(cv2.CAP_PROP_FPS), (800, 480))
 
-    counter = 0  # Initialize exercise counter
-    status = True  # Initialize exercise status
+    counter = 0
+    status = True
 
-    # Setup Mediapipe Pose
-    with mp_pose.Pose(min_detection_confidence=0.5,
-                      min_tracking_confidence=0.5) as pose:
-
+    with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as pose:
         while cap.isOpened():
             ret, frame = cap.read()
             if not ret:
@@ -64,17 +73,12 @@ async def analyze_exercise(file: UploadFile, exercise_type: str = Form(...)):
             frame_rgb.flags.writeable = False
 
             results = pose.process(frame_rgb)
-
             frame_rgb.flags.writeable = True
             frame = cv2.cvtColor(frame_rgb, cv2.COLOR_RGB2BGR)
 
-            try:
+            if results.pose_landmarks:
                 landmarks = results.pose_landmarks.landmark
-                counter, status = TypeOfExercise(landmarks).calculate_exercise(
-                    exercise_type, counter, status)
-            except Exception as e:
-                print(f"Error processing exercise: {e}")
-                pass
+                counter, status = TypeOfExercise(landmarks).calculate_exercise(exercise_type, counter, status)
 
             frame = score_table(exercise_type, frame, counter, status)
 
@@ -82,22 +86,16 @@ async def analyze_exercise(file: UploadFile, exercise_type: str = Form(...)):
                 frame,
                 results.pose_landmarks,
                 mp_pose.POSE_CONNECTIONS,
-                mp_drawing.DrawingSpec(color=(255, 255, 255),
-                                       thickness=2,
-                                       circle_radius=2),
-                mp_drawing.DrawingSpec(color=(174, 139, 45),
-                                       thickness=2,
-                                       circle_radius=2),
+                mp_drawing.DrawingSpec(color=(255, 255, 255), thickness=2, circle_radius=2),
+                mp_drawing.DrawingSpec(color=(174, 139, 45), thickness=2, circle_radius=2),
             )
 
-            # Write the processed frame to the output video
             out.write(frame)
 
     cap.release()
     out.release()
-    os.remove(temp_video_path)  # Clean up the input video file
+    os.remove(temp_video_path)
 
-    # Return the processed video filename or path
     return JSONResponse({'exercise_type': exercise_type, 'reps_count': counter, 'output_file': output_filepath}, status_code=200)
 
 
