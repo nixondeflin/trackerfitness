@@ -37,6 +37,7 @@ const UploadVideo = () => {
       setUploadResponse(response.data);
       console.log('Upload successful, response:', response.data);  // Print the response
       alert('Upload successful!');
+      // Navigate to the video player component with the public URL from the response
       navigate('/video-player', { state: { videoUrl: response.data.output_file } });
     } catch (error) {
       console.error('Error uploading video:', error);
