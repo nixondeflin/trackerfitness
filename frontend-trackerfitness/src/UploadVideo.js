@@ -35,6 +35,7 @@ const UploadVideo = () => {
         },
       });
       setUploadResponse(response.data);
+      console.log('Upload successful, response:', response.data);  // Print the response
       alert('Upload successful!');
       navigate('/video-player', { state: { videoUrl: response.data.output_file } });
     } catch (error) {
