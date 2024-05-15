@@ -11,6 +11,8 @@ from types_of_exercise import TypeOfExercise
 from utils import score_table
 import os
 import uuid
+from fastapi.middleware.cors import CORSMiddleware
+
 
 app = FastAPI()
 
@@ -18,6 +20,18 @@ app = FastAPI()
 mp_drawing = mp.solutions.drawing_utils
 mp_pose = mp.solutions.pose
 
+origins = [
+    "http://localhost:3000",  # Your local frontend URL
+    "https://your-frontend-domain.com",  # Add your frontend URL if it's deployed somewhere
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,  # Allows requests from these origins
+    allow_credentials=True,
+    allow_methods=["*"],  # Allows all methods (GET, POST, etc.)
+    allow_headers=["*"],  # Allows all headers
+)
 
 # Path ke folder Exercise_videos
 video_folder = Path("Exercise_videos")
@@ -104,7 +118,7 @@ async def analyze_exercise(file: UploadFile, exercise_type: str = Form(...)):
 @app.get("/get_video/")
 async def get_video(file_name: str = Query(..., description="The name of the video file to be retrieved")):
     # Construct the full path to the video file
-    video_path = video_folder / file_name
+    video_path = output_folder / file_name
 
     # Check if the file exists
     if not video_path.exists() or not video_path.is_file():
