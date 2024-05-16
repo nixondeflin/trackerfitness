@@ -5,3 +5,4 @@ opencv-python
 pandas
 fastapi
 uvicorn
+google-cloud-storage
