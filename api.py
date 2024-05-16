@@ -39,8 +39,7 @@ app.add_middleware(
 )
 
 # Path ke folder Exercise_videos
-video_folder = Path("Exercise_videos")
-output_folder = Path("output")
+output_folder = Path("videos")
 
 @app.post('/analyze_exercise')
 async def analyze_exercise(file: UploadFile, exercise_type: str = Form(...)):
@@ -57,8 +56,8 @@ async def analyze_exercise(file: UploadFile, exercise_type: str = Form(...)):
     output_filename = f"{original_filename}_output.mp4"
     output_filepath = os.path.join(output_folder, output_filename)
 
-    # Create an output directory if it doesn't exist
-    os.makedirs(output_folder, exist_ok=True)
+    # # Create an output directory if it doesn't exist
+    # os.makedirs(output_folder, exist_ok=True)
 
     # Open the input video file and set up the output video file for writing
     cap = cv2.VideoCapture(temp_video_path)
