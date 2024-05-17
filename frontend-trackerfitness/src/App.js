@@ -1,29 +1,25 @@
-// src/App.js
+import './App.css';
 import React from 'react';
-import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { ChakraProvider, CSSReset, Box } from '@chakra-ui/react';
+import Home from './Home';
 import UploadVideo from './UploadVideo';
 import ProcessedVideosList from './ProcessedVideosList';
 
 const App = () => {
   return (
-    <Router>
-      <div>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">Upload Video</Link>
-            </li>
-            <li>
-              <Link to="/processed-videos">Processed Videos List</Link>
-            </li>
-          </ul>
-        </nav>
-        <Routes>
-          <Route path="/" element={<UploadVideo />} />
-          <Route path="/processed-videos" element={<ProcessedVideosList />} />
-        </Routes>
-      </div>
-    </Router>
+    <ChakraProvider>
+      <CSSReset />
+      <Box textAlign="center" fontSize="xl">
+        <Router>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/uploadvideo" element={<UploadVideo />} />
+            <Route path="/processed-videos" element={<ProcessedVideosList />} />
+          </Routes>
+        </Router>
+      </Box>
+    </ChakraProvider>
   );
 };
 
