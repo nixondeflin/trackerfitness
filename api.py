@@ -12,6 +12,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from google.cloud import storage
 from google.oauth2 import service_account
 from google.auth import default
+import logging
+import numpy as np
+import imageio
 
 app = FastAPI()
 
@@ -39,9 +42,8 @@ BUCKET_NAME = 'filevideo'
 credentials, project = default()
 client = storage.Client(credentials=credentials, project=project)
 
-
 @app.post('/analyze_exercise')
-async def analyze_exercise(file: UploadFile = File(...), exercise_type: str = Form(...)):
+async def analyze_exercise(file: UploadFile, exercise_type: str = Form(...)):
     if not file or not exercise_type:
         raise HTTPException(status_code=400, detail="Missing video file or exercise type")
 
@@ -52,69 +54,83 @@ async def analyze_exercise(file: UploadFile = File(...), exercise_type: str = Fo
 
     # Extract the original filename without the extension
     original_filename = Path(file.filename).stem
-    output_filename = f"{original_filename}_output.mp4"
+    output_filename = f"{original_filename}_output.gif"
+    temp_output_path = tempfile.NamedTemporaryFile(delete=False, suffix='.gif').name
+    
+    # Create an output directory if it doesn't exist
+    output_folder = "output"
+    os.makedirs(output_folder, exist_ok=True)
+    output_filepath = os.path.join(output_folder, output_filename)
 
-    # Open the input video file
+    # Open the input video file and set up the output video file for writing
     cap = cv2.VideoCapture(temp_video_path)
-    fourcc = cv2.VideoWriter_fourcc(*'mp4v')  # Use an appropriate codec for your video
+    fps = cap.get(cv2.CAP_PROP_FPS)
+    if fps == 0:
+        fps = 24  # Default FPS value if unable to get FPS from the video
 
-    # Create a writable file-like object for Google Cloud Storage
-    bucket = client.bucket(BUCKET_NAME)
-    blob = bucket.blob(output_filename)
-    with blob.open('wb') as f:
-        out = cv2.VideoWriter(f, fourcc, cap.get(cv2.CAP_PROP_FPS), (800, 480))
+    counter = 0  # Initialize exercise counter
+    status = True  # Initialize exercise status
 
-        counter = 0  # Initialize exercise counter
-        status = True  # Initialize exercise status
+    frames = []  # List to store frames for GIF
 
-        # Setup Mediapipe Pose
-        with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as pose:
-            while cap.isOpened():
-                ret, frame = cap.read()
-                if not ret:
-                    break
+    # Setup Mediapipe Pose
+    with mp_pose.Pose(min_detection_confidence=0.5,
+                      min_tracking_confidence=0.5) as pose:
 
-                frame = cv2.resize(frame, (800, 480), interpolation=cv2.INTER_AREA)
-                frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-                frame_rgb.flags.writeable = False
+        while cap.isOpened():
+            ret, frame = cap.read()
+            if not ret:
+                break
 
-                results = pose.process(frame_rgb)
+            frame = cv2.resize(frame, (800, 480), interpolation=cv2.INTER_AREA)
+            frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            frame_rgb.flags.writeable = False
 
-                frame_rgb.flags.writeable = True
-                frame = cv2.cvtColor(frame_rgb, cv2.COLOR_RGB2BGR)
+            results = pose.process(frame_rgb)
 
-                try:
-                    landmarks = results.pose_landmarks.landmark
-                    counter, status = TypeOfExercise(landmarks).calculate_exercise(
-                        exercise_type, counter, status)
-                except Exception as e:
-                    print(f"Error processing exercise: {e}")
-                    pass
+            frame_rgb.flags.writeable = True
+            frame = cv2.cvtColor(frame_rgb, cv2.COLOR_RGB2BGR)
 
-                frame = score_table(exercise_type, frame, counter, status)
+            try:
+                landmarks = results.pose_landmarks.landmark
+                counter, status = TypeOfExercise(landmarks).calculate_exercise(
+                    exercise_type, counter, status)
+            except Exception as e:
+                print(f"Error processing exercise: {e}")
+                pass
 
-                mp_drawing.draw_landmarks(
-                    frame,
-                    results.pose_landmarks,
-                    mp_pose.POSE_CONNECTIONS,
-                    mp_drawing.DrawingSpec(color=(255, 255, 255),
-                                           thickness=2,
-                                           circle_radius=2),
-                    mp_drawing.DrawingSpec(color=(174, 139, 45),
-                                           thickness=2,
-                                           circle_radius=2),
-                )
+            frame = score_table(exercise_type, frame, counter, status)
 
-                # Write the processed frame to the output video
-                out.write(frame)
+            mp_drawing.draw_landmarks(
+                frame,
+                results.pose_landmarks,
+                mp_pose.POSE_CONNECTIONS,
+                mp_drawing.DrawingSpec(color=(255, 255, 255),
+                                       thickness=2,
+                                       circle_radius=2),
+                mp_drawing.DrawingSpec(color=(174, 139, 45),
+                                       thickness=2,
+                                       circle_radius=2),
+            )
 
-        cap.release()
-        out.release()
+            # Append the processed frame to the frames list
+            frames.append(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
+
+    cap.release()
+
+    # Save frames as GIF using imageio
+    imageio.mimsave(temp_output_path, frames, fps=fps)
 
     os.remove(temp_video_path)  # Clean up the input video file
 
+    # Upload the processed GIF to Google Cloud Storage
+    bucket = client.bucket(BUCKET_NAME)
+    blob = bucket.blob(output_filename)
+    blob.upload_from_filename(temp_output_path)
+    os.remove(temp_output_path)  # Clean up the temporary output file
+
     public_url = blob.public_url
-    # Return the processed video filename or path
+    # Return the processed GIF filename or path
     return JSONResponse({'exercise_type': exercise_type, 'reps_count': counter, 'output_file': public_url}, status_code=200)
 
 
