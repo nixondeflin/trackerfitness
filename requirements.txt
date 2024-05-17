@@ -6,3 +6,4 @@ pandas
 fastapi
 uvicorn
 google-cloud-storage
+imageio
