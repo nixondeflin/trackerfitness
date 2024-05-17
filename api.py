@@ -56,11 +56,6 @@ async def analyze_exercise(file: UploadFile, exercise_type: str = Form(...)):
     original_filename = Path(file.filename).stem
     output_filename = f"{original_filename}_output.gif"
     temp_output_path = tempfile.NamedTemporaryFile(delete=False, suffix='.gif').name
-    
-    # Create an output directory if it doesn't exist
-    output_folder = "output"
-    os.makedirs(output_folder, exist_ok=True)
-    output_filepath = os.path.join(output_folder, output_filename)
 
     # Open the input video file and set up the output video file for writing
     cap = cv2.VideoCapture(temp_video_path)
