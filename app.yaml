@@ -9,7 +9,7 @@ handlers:
 
 entrypoint: uvicorn api:app --host 0.0.0.0 --port $PORT
 
-instance_class: F2  # Change to a larger instance class like F2 or F4
+instance_class: F4_1G # Change to a larger instance class like F2 or F4
 
 health_check:
   enable_health_check: true
