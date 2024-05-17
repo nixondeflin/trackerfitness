@@ -42,6 +42,26 @@ BUCKET_NAME = 'filevideo'
 credentials, project = default()
 client = storage.Client(credentials=credentials, project=project)
 
+
+@app.get("/list_files")
+async def list_files():
+    try:
+        bucket = client.bucket(BUCKET_NAME)
+        blobs = bucket.list_blobs()
+
+        files = []
+        for blob in blobs:
+            files.append({
+                'name': blob.name,
+                'url': blob.public_url
+            })
+
+        return JSONResponse(content=files, status_code=200)
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error retrieving files: {e}")
+
+
 @app.post('/analyze_exercise')
 async def analyze_exercise(file: UploadFile, exercise_type: str = Form(...)):
     if not file or not exercise_type:
