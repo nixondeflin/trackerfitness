@@ -30,7 +30,7 @@ const Home = () => {
               AI Tracker Fitness Service
             </Text>
             <Text mb={8}>
-              <i><b>AI Fitness Tracker</b></i> adalah sebuah service untuk memantau dan menganalisis aktivitas fisik pengguna, 
+              <i><b>AI Fitness Tracker</b></i> adalah sebuah <i>service</i> untuk memantau dan menganalisis aktivitas fisik pengguna, 
               <br />
               Dengan menggunggah data video, <i>AI Fitness Tracker</i> dapat memberikan analisis jumlah repetisi yang pengguna lakukan untuk membantu mencapai tujuan kebugaran mereka. Pengguna juga dapat melihat lagi hasil video mereka di <i>Processed Video</i>.
             </Text>
