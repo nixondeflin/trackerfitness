@@ -4,18 +4,15 @@ import { useLocation } from 'react-router-dom';
 
 const VideoPlayer = () => {
   const location = useLocation();
-  const videoUrl = location.state?.videoUrl || '';
+  const gifUrl = location.state?.videoUrl || '';
 
   return (
     <div>
-      <h1>Video Player</h1>
-      {videoUrl ? (
-        <video width="800" height="480" controls>
-          <source src={videoUrl} type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
+      <h1>GIF Player</h1>
+      {gifUrl ? (
+        <img src={gifUrl} alt="GIF" width="800" height="480" />
       ) : (
-        <p>No video URL provided.</p>
+        <p>No GIF URL provided.</p>
       )}
     </div>
   );
