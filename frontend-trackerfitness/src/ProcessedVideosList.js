@@ -8,7 +8,7 @@ const ProcessedVideosList = () => {
   useEffect(() => {
     const fetchVideos = async () => {
       try {
-        const response = await axios.get('https://trackerfit-423405.as.r.appspot.com/get_video/');
+        const response = await axios.get('https://trackerfit-423405.as.r.appspot.com/list_files/');
         setVideos(response.data);
       } catch (error) {
         console.error('Error fetching videos:', error);
@@ -24,7 +24,7 @@ const ProcessedVideosList = () => {
       <ul>
         {videos.map((video, index) => (
           <li key={index}>
-            <a href={`https://trackerfit-423405.as.r.appspot.com/get_video/?file_name=${video}`} target="_blank" rel="noopener noreferrer">
+            <a href={`https://trackerfit-423405.as.r.appspot.com/list_files/?file_name=${video}`} target="_blank" rel="noopener noreferrer">
               {video}
             </a>
           </li>

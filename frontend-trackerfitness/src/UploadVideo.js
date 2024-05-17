@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 
 const UploadVideo = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [exerciseType, setExerciseType] = useState('');
   const [uploadResponse, setUploadResponse] = useState(null);
-  const [error, setError] = useState('');
-  const navigate = useNavigate();
+  const [setError] = useState('');
 
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
@@ -35,10 +33,8 @@ const UploadVideo = () => {
         },
       });
       setUploadResponse(response.data);
-      console.log('Upload successful, response:', response.data);  // Print the response
+      console.log('Upload successful, response:', response.data);
       alert('Upload successful!');
-      // Navigate to the video player component with the public URL from the response
-      navigate('/video-player', { state: { videoUrl: response.data.output_file } });
     } catch (error) {
       console.error('Error uploading video:', error);
       if (error.response) {
@@ -66,13 +62,31 @@ const UploadVideo = () => {
         <input type="text" value={exerciseType} onChange={handleExerciseTypeChange} placeholder="Exercise Type" required />
         <button type="submit">Upload</button>
       </form>
+      
       {uploadResponse && (
         <div>
-          <h2>Upload Response</h2>
-          <pre>{JSON.stringify(uploadResponse, null, 2)}</pre>
+          <h1>GIF Player</h1>
+          <img src={uploadResponse.output_file} alt="GIF" width="800" height="480" />
+          <form>
+            <div>
+              <label>File Name: </label>
+              <input type="text" value={selectedFile?.name || ''} readOnly />
+            </div>
+            <div>
+              <label>Exercise Type: </label>
+              <input type="text" value={uploadResponse.exercise_type || ''} readOnly />
+            </div>
+            <div>
+              <label>Reps Count: </label>
+              <input type="text" value={uploadResponse.reps_count || ''} readOnly />
+            </div>
+            <div>
+              <label>Output File: </label>
+              <input type="text" value={uploadResponse.output_file || ''} readOnly />
+            </div>
+          </form>
         </div>
       )}
-      {error && <p style={{ color: 'red' }}>{error}</p>}
     </div>
   );
 };
