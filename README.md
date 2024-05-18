@@ -18,5 +18,12 @@ Pada cloud, video diproses oleh algoritma AI yang telah dilatih untuk mengenali 
 ## Pengiriman Hasil Analisis
 Hasil dari analisis AI kemudian dikirimkan kembali ke pengguna melalui antarmuka tertentu pada cloud. Pengguna bisa mendapatkan akses hampir secara real-time atau segera setelah analisis selesai. Umpan balik yang diberikan berupa visualisasi jumlah repetisi yang dilakukan dengan tepat, yang ditujukan untuk membantu pengguna memperoleh hasil maksimal dari rutinitas latihan mereka.
 
+## Jenis Latihan : 
+- Push-Up
+- Pull-Up
+- Sit-Up
+- Walk
+- Squat
+
 ## Catatan Penting
 Pencahayaan yang baik dan sudut kamera yang tepat sangat penting untuk memastikan kualitas video yang baik. Koneksi internet yang stabil dan cepat diperlukan untuk memastikan video diunggah dengan efisien dan tanpa kehilangan data penting.
