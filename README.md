@@ -1,65 +1,22 @@
-# AI-Fitness-trainer
-An AI model used to help with the workout session by keeping track of counts and movement using the mediapipe library . Then using the appropriate body part angles , the count of exercise is determined.
+# Cloud Based Video Motion Analysis with AI
 
-## Pull-Up Exercise
-![Pull-Up](https://github.com/itzThillaiC/AI-Fitness-trainer/blob/main/output/output%20pull-up.gif?raw=true)
+## Kelompok Dream :
+- Jessica/18221073
+- Nadine Aliya Putri/18221081
+- Nixon Deflin Kurniawan/18221150
+- Victoria Angelique/ 18221153
 
-A pull-up is an upper-body strength exercise. The pull-up is a closed-chain movement where the body is suspended by the hands and pulls up.As this happens, the elbows flex and the shoulders adduct and extend to bring the elbows to the torso.
+## Deskripsi Proyek
+Proyek ini bertujuan untuk memanfaatkan teknologi pemrosesan gambar, untuk mengamati, menganalisis, dan menilai ketepatan gerakan latihan pengguna. Dengan memanfaatkan kecerdasan buatan, sistem dapat mengidentifikasi gerakan olahraga pada video secara real-time maupun dari video yang telah diunggah pada cloud. Sistem kemudian hanya akan menghitung jumlah gerakan olahraga yang tepat, sehingga membantu pengguna untuk melakukan koreksi terhadap gerakan olahraga yang tidak tepat, membantu dalam memandu pengguna melalui setiap gerakan olahraga dan memastikan bahwa latihan olahraga dijalankan dengan efektif dan tepat. Oleh karena itu, proyek pengembangan program analisis gerakan olahraga berbasis AI ini dapat membantu orang-orang yang ingin berolahraga, namun mengalami kesulitan dalam melakukan gerakan olahraga tertentu. Dengan memanfaatkan sistem multimedia melalui alat berupa kamera, diharapkan proyek analisis gerakan olahraga ini dapat mengidentifikasi gerakan tubuh pengguna dan memberikan perhitungan gerakan yang tepat untuk membantu pengguna meningkatkan teknik gerakan dan hasil performa latihan olahraganya.
 
-```
-python main.py -t pull-up -vs videos/pull-up.mp4
-```
+## Cara Penggunaan
+Pengguna merekam sesi workout mereka menggunakan kamera digital atau kamera smartphone. Pencahayaan yang baik dan sudut kamera yang tepat sangat penting untuk memastikan kualitas video yang baik. Setelah sesi latihan selesai, video yang direkam diunggah ke server cloud. Proses ini memerlukan koneksi internet yang stabil dan cepat untuk memastikan video diunggah dengan efisien dan tanpa kehilangan data penting.
 
+## Proses Analisis
+Pada cloud, video diproses oleh algoritma AI yang telah dilatih untuk mengenali gerakan workout spesifik. Algoritma ini menggunakan teknik machine learning dan pengenalan pola untuk menganalisis konten video. AI mencari gerakan yang sesuai dengan gerakan olahraga yang telah diprogram, seperti push-up atau pull-up, mengidentifikasi ketika gerakan dimulai dan berakhir, dan menghitung jumlah repetisi yang dilakukan dengan akurat. Selain menghitung repetisi, AI juga menilai kualitas setiap gerakan berdasarkan parameter yang telah ditetapkan, seperti rentang gerakan dan postur tubuh. Hal ini memungkinkan sistem untuk memberikan umpan balik yang tidak hanya berfokus pada kuantitas tetapi juga kualitas, yang sangat penting untuk pencegahan cedera dan meningkatkan efektivitas latihan.
 
-## Push-Up Exercise
-![Push-Up](https://github.com/itzThillaiC/AI-Fitness-trainer/blob/main/output/output%20push-up.gif?raw=true)
+## Pengiriman Hasil Analisis
+Hasil dari analisis AI kemudian dikirimkan kembali ke pengguna melalui antarmuka tertentu pada cloud. Pengguna bisa mendapatkan akses hampir secara real-time atau segera setelah analisis selesai. Umpan balik yang diberikan berupa visualisasi jumlah repetisi yang dilakukan dengan tepat, yang ditujukan untuk membantu pengguna memperoleh hasil maksimal dari rutinitas latihan mereka.
 
-
-A push-up is a conditioning exercise performed in a prone position by raising and lowering the body with the straightening and bending of the arms while keeping the back straight and supporting the body on the hands and toes.
-
-```
-python main.py -t push-up -vs videos/push-up.mp4
-```
-
-
-## Sit-Up Exercise
-![Sit-Up](https://github.com/itzThillaiC/AI-Fitness-trainer/blob/main/output/output%20sit-up.gif)
-
-
-The sit-up is an abdominal endurance training exercise to strengthen, tighten and tone the abdominal muscles. It is similar to a crunch, but sit-ups have a fuller range of motion and condition additional muscles.
-```
-python main.py -t sit-up -vs videos/sit-up.mp4
-```
-
-
-
-## Walking Exercise
-![Walking](https://github.com/itzThillaiC/AI-Fitness-trainer/blob/main/output/output%20walking%20exercise.gif)
-
-
-```
-python main.py -t walk -vs videos/walk.mp4
-```
-
-
-
-## Squat Exercise
-![Squat](https://github.com/itzThillaiC/AI-Fitness-trainer/blob/main/output/output%20squat.gif)
-
-
-
-A squat is a strength exercise in which the trainee lowers their hips from a standing position and then stands back up. During the descent of a squat, the hip and knee joints flex while the ankle joint dorsiflexes.
-
-```
-python main.py -t squat -vs videos/squat.mp4
-```
-
-For dynamically detecting your realtime movements using your webcam , use these commands below:
-```
-python main.py -t sit-up
-# or python main.py -t pull-up
-# or python main.py -t push-up
-# or python main.py -t squat
-# or python main.py -t walk
-```
-
+## Catatan Penting
+Pencahayaan yang baik dan sudut kamera yang tepat sangat penting untuk memastikan kualitas video yang baik. Koneksi internet yang stabil dan cepat diperlukan untuk memastikan video diunggah dengan efisien dan tanpa kehilangan data penting.
