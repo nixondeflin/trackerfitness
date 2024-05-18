@@ -7,7 +7,8 @@ handlers:
 - url: /.*
   script: auto
   
-entrypoint: uvicorn api:app --host 0.0.0.0 --port $PORT
+entrypoint: gunicorn -w 2 -k uvicorn.workers.UvicornWorker api:app --bind :$PORT
+# entrypoint: uvicorn api:app --host 0.0.0.0 --port $PORT
 
 instance_class: F4_1G # Change to a larger instance class like F2 or F4
 
