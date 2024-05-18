@@ -43,7 +43,7 @@ credentials, project = default()
 client = storage.Client(credentials=credentials, project=project)
 
 
-@app.get("/list_files")
+@app.get("/api/list_files/")
 async def list_files():
     try:
         bucket = client.bucket(BUCKET_NAME)
@@ -62,7 +62,7 @@ async def list_files():
         raise HTTPException(status_code=500, detail=f"Error retrieving files: {e}")
 
 
-@app.get("/api/list_files/")
+@app.get("/api/analyze_exercise/")
 async def analyze_exercise(file: UploadFile, exercise_type: str = Form(...)):
     if not file or not exercise_type:
         raise HTTPException(status_code=400, detail="Missing video file or exercise type")
