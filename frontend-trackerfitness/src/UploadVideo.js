@@ -43,15 +43,15 @@ const UploadVideo = () => {
       });
       return;
     }
-  
+
     setIsLoading(true);
-  
+
     const formData = new FormData();
     formData.append('file', selectedFile);
     formData.append('exercise_type', exerciseType);
-  
+
     try {
-      const response = await axios.post('/api/analyze_exercise', formData, {
+      const response = await axios.post('https://trackerfit-423405.as.r.appspot.com/analyze_exercise', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -103,7 +103,6 @@ const UploadVideo = () => {
       setIsLoading(false);
     }
   };
-  
 
   return (
     <Box
