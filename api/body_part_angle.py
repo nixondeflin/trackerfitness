@@ -4,6 +4,8 @@ import numpy as np
 import cv2
 from utils import *
 
+from trackerfitness.api.utils import calculate_angle, detection_body_part
+
 
 class BodyPartAngle:
     def __init__(self, landmarks):

@@ -4,8 +4,8 @@ import cv2
 import mediapipe as mp
 import tempfile
 from pathlib import Path
-from body_part_angle import BodyPartAngle
-from types_of_exercise import TypeOfExercise
+from trackerfitness.api.body_part_angle import BodyPartAngle
+from trackerfitness.api.types_of_exercise import TypeOfExercise
 from utils import score_table
 import os
 from fastapi.middleware.cors import CORSMiddleware

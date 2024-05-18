@@ -2,8 +2,8 @@ import cv2
 import argparse
 from utils import *
 import mediapipe as mp
-from body_part_angle import BodyPartAngle
-from types_of_exercise import TypeOfExercise
+from trackerfitness.api.body_part_angle import BodyPartAngle
+from trackerfitness.api.types_of_exercise import TypeOfExercise
 from utils import score_table
 
 

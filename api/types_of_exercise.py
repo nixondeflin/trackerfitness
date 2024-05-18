@@ -1,6 +1,8 @@
 import numpy as np
-from body_part_angle import BodyPartAngle
+from trackerfitness.api.body_part_angle import BodyPartAngle
 from utils import *
+
+from trackerfitness.api.utils import detection_body_part
 
 
 class TypeOfExercise(BodyPartAngle):
