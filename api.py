@@ -62,7 +62,7 @@ async def list_files():
         raise HTTPException(status_code=500, detail=f"Error retrieving files: {e}")
 
 
-@app.post('/analyze_exercise')
+@app.get("/api/list_files/")
 async def analyze_exercise(file: UploadFile, exercise_type: str = Form(...)):
     if not file or not exercise_type:
         raise HTTPException(status_code=400, detail="Missing video file or exercise type")
@@ -149,7 +149,7 @@ async def analyze_exercise(file: UploadFile, exercise_type: str = Form(...)):
     return JSONResponse({'exercise_type': exercise_type, 'reps_count': counter, 'output_file': public_url}, status_code=200)
 
 
-@app.get("/")
+@app.get("/api/")
 def read_root():
     return {"Welcome to AI Fitness Tracker!"}
 

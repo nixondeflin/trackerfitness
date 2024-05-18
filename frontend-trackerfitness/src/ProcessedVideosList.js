@@ -9,7 +9,7 @@ const ProcessedVideosList = () => {
   useEffect(() => {
     const fetchVideos = async () => {
       try {
-        const response = await axios.get('https://trackerfit-423405.as.r.appspot.com/list_files/');
+        const response = await axios.get('/api/list_files/');
         setVideos(response.data);
       } catch (error) {
         console.error('Error fetching videos:', error);
