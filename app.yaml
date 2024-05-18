@@ -2,14 +2,18 @@ runtime: python39
 
 handlers:
 - url: /static
-  static_dir: static
+  static_dir: frontend-trackerfitness/build/static
 
-- url: /.*
+- url: /api/.*
   script: auto
 
-entrypoint: uvicorn api:app --host 0.0.0.0 --port $PORT
+- url: /.*
+  static_files: frontend-trackerfitness/build/index.html
+  upload: frontend-trackerfitness/build/index.html
 
-instance_class: F4_1G # Change to a larger instance class like F2 or F4
+entrypoint: gunicorn -w 2 -k uvicorn.workers.UvicornWorker api:app --bind :$PORT
+
+instance_class: F4_1G
 
 health_check:
   enable_health_check: true
