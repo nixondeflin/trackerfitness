@@ -24,7 +24,7 @@ mp_pose = mp.solutions.pose
 
 origins = [
     "http://localhost:3000",  # Your local frontend URL
-    "https://your-frontend-domain.com",  # Add your frontend URL if it's deployed somewhere
+    "https://frontend-trackerfit.as.r.appspot.com",  # Add your frontend URL if it's deployed somewhere
 ]
 
 app.add_middleware(
