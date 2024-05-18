@@ -11,7 +11,7 @@ handlers:
   static_files: frontend-trackerfitness/build/index.html
   upload: frontend-trackerfitness/build/index.html
 
-entrypoint: gunicorn -w 2 -k uvicorn.workers.UvicornWorker api.api:app --bind :$PORT
+entrypoint: gunicorn -w 2 -k uvicorn.workers.UvicornWorker api:app --bind :$PORT
 
 instance_class: F4_1G
 
