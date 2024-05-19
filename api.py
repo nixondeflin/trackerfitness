@@ -13,7 +13,6 @@ from fastapi.middleware.cors import CORSMiddleware
 from google.cloud import storage
 from google.oauth2 import service_account
 from google.auth import default
-import logging
 import numpy as np
 import imageio
 
@@ -52,9 +51,11 @@ async def list_files():
 
         files = []
         for blob in blobs:
+            blob.reload()
             files.append({
                 'name': blob.name,
-                'url': blob.public_url
+                'url': blob.public_url,
+                'metadata': blob.metadata,
             })
 
         return JSONResponse(content=files, status_code=200)
@@ -143,6 +144,12 @@ async def analyze_exercise(file: UploadFile, exercise_type: str = Form(...)):
     # Upload the processed GIF to Google Cloud Storage
     bucket = client.bucket(BUCKET_NAME)
     blob = bucket.blob(output_filename)
+
+    blob.metadata = {
+        "exercise_type": exercise_type,
+        "reps_count": str(counter)
+    }
+
     blob.upload_from_filename(temp_output_path)
     os.remove(temp_output_path)  # Clean up the temporary output file
 
