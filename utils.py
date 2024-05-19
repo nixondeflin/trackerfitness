@@ -43,7 +43,7 @@ def detection_body_parts(landmarks):
 
 def score_table(exercise, frame, counter, status):
     top_left = (0, 0)  
-    bottom_right = (210, 110)
+    bottom_right = (220, 110)
     
     cv2.rectangle(frame, top_left, bottom_right, (255, 255, 255), cv2.FILLED)
 
