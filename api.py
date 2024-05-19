@@ -1,5 +1,6 @@
 from fastapi import FastAPI, HTTPException, Query, UploadFile, File, Form
 from fastapi.responses import FileResponse, JSONResponse, StreamingResponse
+from datetime import datetime
 import cv2
 import mediapipe as mp
 import tempfile
@@ -74,7 +75,8 @@ async def analyze_exercise(file: UploadFile, exercise_type: str = Form(...)):
 
     # Extract the original filename without the extension
     original_filename = Path(file.filename).stem
-    output_filename = f"{original_filename}_output.gif"
+    timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
+    output_filename = f"{original_filename}_{timestamp}.gif"
     temp_output_path = tempfile.NamedTemporaryFile(delete=False, suffix='.gif').name
 
     # Open the input video file and set up the output video file for writing
