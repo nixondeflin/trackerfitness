@@ -1,10 +1,41 @@
 # Cloud Based Video Motion Analysis with AI
 
-## Kelompok Dream :
-- Jessica/18221073
-- Nadine Aliya Putri/18221081
-- Nixon Deflin Kurniawan/18221150
-- Victoria Angelique/ 18221153
+<table>
+    <tr>
+        <td colspan=4 align="center">Kelompok Dream</td>
+    </tr>
+    <tr>
+        <td>No.</td>
+        <td>Nama</td>
+        <td>NIM</td>
+        <td>Email</td>
+    </tr>
+    <tr>
+        <td>1.</td>
+        <td>Jessica</td>
+        <td>18221073</td>
+        <td><a href="mailto:18221073@std.stei.itb.ac.id">18221073@std.stei.itb.ac.id</a></td>
+    </tr>
+    <tr>
+        <td>2.</td>
+        <td>Nadine Aliya Putri</td>
+        <td>18221081</td>
+        <td><a href="mailto:18221081@std.stei.itb.ac.id">18221081@std.stei.itb.ac.id</a></td>
+    </tr>
+    <tr>
+        <td>3.</td>
+        <td>Nixon Deflin Kurniawan</td>
+        <td>18221150</td>
+        <td><a href="mailto:18221150@std.stei.itb.ac.id">18221150@std.stei.itb.ac.id</a></td>
+    </tr>
+    <tr>
+        <td>5.</td>
+        <td>Victoria Angelique</td>
+        <td>18221153</td>
+        <td><a href="mailto:18221153@std.stei.itb.ac.id">18221153@std.stei.itb.ac.id</a></td>
+    </tr>
+</table>
+</p>
 
 ## Deskripsi Proyek
 Proyek ini bertujuan untuk memanfaatkan teknologi pemrosesan gambar, untuk mengamati, menganalisis, dan menilai ketepatan gerakan latihan pengguna. Dengan memanfaatkan kecerdasan buatan, sistem dapat mengidentifikasi gerakan olahraga pada video secara real-time maupun dari video yang telah diunggah pada cloud. Sistem kemudian hanya akan menghitung jumlah gerakan olahraga yang tepat, sehingga membantu pengguna untuk melakukan koreksi terhadap gerakan olahraga yang tidak tepat, membantu dalam memandu pengguna melalui setiap gerakan olahraga dan memastikan bahwa latihan olahraga dijalankan dengan efektif dan tepat. Oleh karena itu, proyek pengembangan program analisis gerakan olahraga berbasis AI ini dapat membantu orang-orang yang ingin berolahraga, namun mengalami kesulitan dalam melakukan gerakan olahraga tertentu. Dengan memanfaatkan sistem multimedia melalui alat berupa kamera, diharapkan proyek analisis gerakan olahraga ini dapat mengidentifikasi gerakan tubuh pengguna dan memberikan perhitungan gerakan yang tepat untuk membantu pengguna meningkatkan teknik gerakan dan hasil performa latihan olahraganya.
